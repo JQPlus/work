@@ -1,0 +1,43 @@
+server:
+  port: 8080
+spring:
+    datasource:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      url:  jdbc:mysql://localhost:3306/bugging?useUnicode=true&characterEncoding=UTF-8&serverTimezone=GMT
+      username: root 
+      password: 123123
+       # 使用druid数据源
+      #type: com.alibaba.druid.pool.DruidDataSource
+      #filters: stat
+      #maxActive: 20
+      #initialSize: 1
+      #maxWait: 60000
+      #minIdle: 1
+      #timeBetweenEvictionRunsMillis: 60000
+      #minEvictableIdleTimeMillis: 300000
+      #validationQuery: select 'x'
+      #testWhileIdle: true
+      #testOnBorrow: false
+      #testOnReturn: false
+      #poolPreparedStatements: true
+      #maxOpenPreparedStatements: 20
+    resources : #告诉Spring Boot应该在何处查找静态资源文件
+      static-locations : classpath:/META-INF/resources/,classpath:/resources/,classpath:/static/,classpath:/public/
+    mvc:
+      static-path-pattern: /** #表示会从上面设置的目录下的/**为前缀的目录去寻找静态文件(*匹配一级,**匹配多级)
+      
+      #view:
+            #prefix: /
+            #suffix: .html
+
+
+mybatis:
+   #mapper-locations: classpath:mapper/*.xml  #注意：一定要对应mapper映射xml文件的所在路径
+   type-aliases-package: cn.bugging.work.entity # 注意：对应实体类的路径
+
+#pagehelper分页插件
+pagehelper:
+    helperDialect: mysql
+    reasonable: true
+    supportMethodsArguments: true
+    params: count=countSql
