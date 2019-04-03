@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <link href="shared\common.html" rel="import">
+</head>
+
+<body>
+    <div id="app">
+        <!-- 布局容器 -->
+        <el-container>
+            <el-header class="nav-shadow">
+                <!-- <el-dropdown>
+                            <i class="el-icon-setting" style="margin-right: 15px"></i>
+                            <el-dropdown-menu slot="dropdown">
+                                <el-dropdown-item>查看</el-dropdown-item>
+                                <el-dropdown-item>新增</el-dropdown-item>
+                                <el-dropdown-item>删除</el-dropdown-item>
+                            </el-dropdown-menu>
+                        </el-dropdown>
+                        <span>test</span> -->
+
+                <el-menu :default-active="1" mode="horizontal" background-color="#3d4c66" text-color="#fff"
+                    active-text-color="#ffd04b">
+                    <el-menu-item index="1" style="margin-left:80px;cursor:pointer" disabled>
+                        <i class="el-icon-menu"></i>处理中心
+                    </el-menu-item>
+                </el-menu>
+            </el-header>
+            <!-- 左导航栏 -->
+            <el-container>
+                <el-aside class="nav-shadow" style="height:100%;width:120px">
+                    <el-menu :default-active="1" mode="vertical"
+                        style="display:block;position: fixed; top: 0px; bottom: 0px;padding-top: 60px">
+                        <el-menu-item index="1">
+                            <i class="el-icon-menu"></i>
+                            <span slot="title">总览</span>
+                        </el-menu-item>
+                        <el-menu-item index="2">
+                            <i class="el-icon-question"></i>
+                            <span slot="title">问题</span>
+                        </el-menu-item>
+                        <el-menu-item index="3">
+                            <i class="el-icon-document"></i>
+                            <span slot="title">统计</span>
+                        </el-menu-item>
+                        <el-menu-item index="4">
+                            <i class="el-icon-info"></i>
+                            <span slot="title">关于</span>
+                        </el-menu-item>
+                    </el-menu>
+                </el-aside>
+                <el-main>
+                    <el-row :gutter="10" style="width:99.31%">
+                        <el-col style="width:25%">
+                            <div class="info-shadow" style="height:380px;">
+                                <p>与我相关的缺陷</p>
+                                <div style="margin-top: -40px">
+                                    <dl>
+                                        <dt>1</dt>
+                                        <dd>我创建的</dd>
+                                    </dl>
+                                    <dl>
+                                        <dt>2</dt>
+                                        <dd>我跟踪的</dd>
+                                    </dl>
+                                    <dl>
+                                        <dt>3</dt>
+                                        <dd>待解决的</dd>
+                                    </dl>
+                                    <dl>
+                                        <dt>4</dt>
+                                        <dd>指派给我的</dd>
+                                    </dl>
+                                </div>
+                            </div>
+                        </el-col>
+                        <el-col style="width:75%">
+                            <div class="info-shadow" style="height:380px;">
+                                <p>任务分布</p>
+                                <el-progress :percentage="50" color="red" type="circle" style="margin-left: 10%">
+                                </el-progress>
+                                <el-progress :percentage="50" color="blue" type="circle" style="margin-left: 10%">
+                                </el-progress>
+                                <el-progress :percentage="50" color="yellow" type="circle" style="margin-left: 10%">
+                                </el-progress>
+                                <el-progress :percentage="50" color="green" type="circle" style="margin-left: 10%">
+                                </el-progress>
+                            </div>
+                        </el-col>
+                    </el-row>
+                    <el-row :gutter="10" style="width:99.31%;margin-bottom:20px">
+                        <el-col style="width:25%">
+                            <div class="info-shadow" style="margin-top:1%;height:370px;">
+                                <p>我的任务</p>
+                            </div>
+                        </el-col>
+                        <el-col style="width:75%">
+                            <div class="info-shadow" style="margin-top:1%;height:370px;">
+                                <p>我的任务</p>
+                            </div>
+                        </el-col>
+                    </el-row>
+                </el-main>
+            </el-container>
+        </el-container>
+    </div>
+</body>
+<style>
+    html,
+    body {
+        margin: 0;
+        background: #F2F6FC;
+    }
+
+    .nav-shadow {
+        box-shadow: 2px 2px 12px rgba(0, 0, 0, .12), 0 0 50px rgba(0, 0, 0, .04);
+    }
+
+    .info-shadow {
+        box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+        background: #FFFFFF;
+    }
+
+    .grid-content {
+        border-radius: 4px;
+        min-height: 36px;
+    }
+
+    .el-header {
+        background-color: #3D4C66;
+        color: #333;
+        line-height: 60px;
+        z-index: 1;
+        display: block;
+        width: 100%;
+        position: fixed;
+    }
+
+    .el-main {
+        padding: 55px 0px 0px 1px;
+        margin-left: -10px;
+    }
+
+    p {
+        width: 100%;
+        height: 40px;
+        font-size: 14px;
+        font-family: PingFangSC-Semibold;
+        font-weight: 600;
+        color: rgba(23, 43, 77, 1);
+        padding-left: 20px;
+        padding-top: 16px;
+        margin-bottom: 68px;
+    }
+
+    dl {
+        width: 40%;
+        float: left;
+        margin-left: 20px;
+        text-align: center;
+        margin-bottom: 35px;
+        cursor: pointer;
+        padding-bottom: 10px;
+    }
+
+    dt {
+        font-size: 40px;
+        font-family: San Francisco UI;
+        font-weight: 400;
+        color: #67C23A;
+    }
+
+    dd {
+        font-size: 13px;
+        font-family: San Francisco UI;
+        font-weight: 400;
+        color: rgba(168, 172, 185, 1);
+        -webkit-margin-start: 0px;
+    }
+</style>
+<script type="text/javascript" src="..\js\dashboard.js"></script>
+
+</html>
