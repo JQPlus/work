@@ -22,7 +22,7 @@ spring:
       #poolPreparedStatements: true
       #maxOpenPreparedStatements: 20
     resources : #告诉Spring Boot应该在何处查找静态资源文件
-      static-locations : classpath:/META-INF/resources/,classpath:/resources/,classpath:/static/,classpath:/public/
+      static-locations : classpath:/META-INF/resources/,classpath:/resources/,classpath:/static/,classpath:/public/,classpath:/templates/
     mvc:
       static-path-pattern: /** #表示会从上面设置的目录下的/**为前缀的目录去寻找静态文件(*匹配一级,**匹配多级)
       
