@@ -11,7 +11,7 @@
 	<div id="loginWindow" class="loginPage">
 		<h1 class="title">登录</h1>
 		<el-form :model="user">
-			<el-form-item prop="name" :rules="[{ required: true, message: '请输入账号', trigger: 'blur' }]" >
+			<el-form-item prop="name" :rules="[{ required: true, message: '请输入账号', trigger: 'blur' }]">
 				<el-input v-model="user.name" placeholder="请输入账号"></el-input>
 			</el-form-item>
 			<el-form-item prop="password" :rules="[{ required: true, message: '请输入密码', trigger: 'blur' }]">
@@ -45,4 +45,5 @@
 	</div>
 </body>
 <script src="..\js\user.js"></script>
+
 </html>
