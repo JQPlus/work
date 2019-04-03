@@ -1,0 +1,52 @@
+<script type="text/x-template" id="overview">
+    <el-row : gutter="10" style="width:99.31%">
+            <el-col style="width:25%">
+                <div class="info-shadow" style="height:380px;">
+                    <p>与我相关的缺陷</p>
+                    <div style="margin-top: -40px">
+                        <dl>
+                            <dt>1</dt>
+                            <dd>我创建的</dd>
+                        </dl>
+                        <dl>
+                            <dt>2</dt>
+                            <dd>我跟踪的</dd>
+                        </dl>
+                        <dl>
+                            <dt>3</dt>
+                            <dd>待解决的</dd>
+                        </dl>
+                        <dl>
+                            <dt>4</dt>
+                            <dd>指派给我的</dd>
+                        </dl>
+                    </div>
+                </div>
+            </el-col>
+            <el-col style="width:75%">
+                <div class="info-shadow" style="height:380px;">
+                    <p>任务分布</p>
+                    <el-progress : percentage="50" color="red" type="circle" style="margin-left: 10%">
+                    </el-progress>
+                    <el-progress : percentage="50" color="blue" type="circle" style="margin-left: 10%">
+                    </el-progress>
+                    <el-progress : percentage="50" color="yellow" type="circle" style="margin-left: 10%">
+                    </el-progress>
+                    <el-progress : percentage="50" color="green" type="circle" style="margin-left: 10%">
+                    </el-progress>
+                </div>
+            </el-col>
+        </el-row>
+        <el-row : gutter="10" style="width:99.31%;margin-bottom:20px">
+            <el-col style="width:25%">
+                <div class="info-shadow" style="margin-top:1%;height:370px;">
+                    <p>项目成员</p>
+                </div>
+            </el-col>
+            <el-col style="width:75%">
+                <div class="info-shadow" style="margin-top:1%;height:370px;">
+                    <p>问题概述</p>
+                </div>
+            </el-col>
+        </el-row>
+</script>
