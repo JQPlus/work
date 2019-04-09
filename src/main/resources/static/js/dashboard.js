@@ -42,10 +42,23 @@ var router = new VueRouter({
     ]
 })
 
-new Vue({
-    el: "#app",
-    methods: {},
-    data: {},
-    router: router,
-
+//dashboard-vue实例
+var dashboard= new Vue({
+    el: "#dashboard",
+    router,
+    methods: {
+        handleSizeChange(val) {
+            console.log(`每页 ${val} 条`);
+        },
+        handleCurrentChange(val) {
+            console.log(`当前页: ${val}`);
+        }
+    },
+    data() {
+        const item = {
+            date: '2016-05-02',
+            name: '王小虎',
+            address: '上海市普陀区金沙江路 1518 弄'
+        };
+    }
 })
