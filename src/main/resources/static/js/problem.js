@@ -1,12 +1,12 @@
 new Vue({
-    el: "#problem",
+    el: "#problem-template",
     methods: {
-        handleSizeChange(val) {
-            console.log(`每页 ${val} 条`);
-        },
-        handleCurrentChange(val) {
-            console.log(`当前页: ${val}`);
-        }
+//        handleSizeChange(val) {
+//            console.log(`每页 ${val} 条`);
+//        },
+//        handleCurrentChange(val) {
+//            console.log(`当前页: ${val}`);
+//        }
     },
     data() {
         const item = {
@@ -15,12 +15,12 @@ new Vue({
             address: '上海市普陀区金沙江路 1518 弄'
         };
         return {
-            search: '',
+//            search: '',
             tableData: Array(20).fill(item),
-            currentPage1: 5,
-            currentPage2: 5,
-            currentPage3: 5,
-            currentPage4: 4
+//            currentPage1: 5,
+//            currentPage2: 5,
+//            currentPage3: 5,
+//            currentPage4: 4
         }
     }
 })

@@ -5,12 +5,13 @@
     <meta charset="UTF-8">
     <link href="..\shared\common.html" rel="import">
     <link href="..\css\dashboard.css" type="text/css" rel="stylesheet">
+    <link href="..\css\problem.css" type="text/css" rel="stylesheet">
     <script src="..\vue\vue-router.js" type="text/javascript"></script>
 </head>
 
 <body>
-    <template id="dashboard">
-        <div>
+    <template id="dashboard-template">
+        <div id="dashboard">
             <!-- 布局容器 -->
             <el-container>
                 <el-header class="nav-shadow">
@@ -46,7 +47,8 @@
                     </el-aside>
                     <el-main>
                         <!-- 占位符，用来在当中根据路由来展示对应的内容 -->
-                        <router-view></router-view>
+                        <!--props自定义的mydata属性双向绑定tabledata  -->
+                        <router-view :mydata="tableData"></router-view>
                     </el-main>
                 </el-container>
             </el-container>
@@ -55,8 +57,8 @@
 </body>
 
 <!-- 总览布局 -->
-<template id="overview">
-    <div>
+<template id="overview-template">
+    <div id="overview">
         <el-row :gutter="10" style="width:99.31%">
             <el-col style="width:25%">
                 <div class="info-shadow" style="height: 380px;">
@@ -110,11 +112,11 @@
 </template>
 
 <!-- 问题详情模板 -->
-<template id="problem">
-    <div>
-        <el-container style="height: 500px; border: 1px solid #eee">
+<template id="problem-template">
+    <div id="problem">
+        <el-container style="height: 670px; border: 1px solid #eee">
             <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
-                <el-menu style="position:fixed;width: 200px;height: 500px;">
+                <el-menu style="position:fixed;width: 200px;height: 100%;">
                     <el-menu-item index="1">
                         <template slot="title"><i class="el-icon-message"></i>全部问题</template>
                     </el-menu-item>
@@ -135,60 +137,33 @@
                     </el-menu-item>
                 </el-menu>
             </el-aside>
-            <el-container>
-                <el-header style="text-align: right; font-size: 12px">
-                    <el-dropdown>
-                        <i class="el-icon-setting" style="margin-right: 15px"></i>
-                        <el-dropdown-menu slot="dropdown">
-                            <el-dropdown-item>查看</el-dropdown-item>
-                            <el-dropdown-item>新增</el-dropdown-item>
-                            <el-dropdown-item>删除</el-dropdown-item>
-                        </el-dropdown-menu>
-                    </el-dropdown>
-                    <span>王小虎</span>
-                </el-header>
-
-                <el-main>
-                    <el-table
-                        
-                        :default-sort="{prop: 'date', order: 'descending'}">
-                        <!-- type为selection时选择多行数据时使用 Checkbox。-->
-                        <el-table-column type="selection" width="55">
-                        </el-table-column>
-                        <el-table-column prop="date" label="日期" width="140" sortable>
-                        </el-table-column>
-                        <el-table-column prop="name" label="姓名" width="120" sortable>
-                        </el-table-column>
-                        <el-table-column prop="address" label="地址" sortable>
-                        </el-table-column>
-                        <el-table-column align="right">
-                            <template slot="header" slot-scope="scope">
-                                <el-input v-model="search" size="mini" placeholder="输入关键字搜索" />
-                            </template>
-                            <template slot-scope="scope">
-                                <el-button size="mini" @click="handleEdit(scope.$index, scope.row)">Edit</el-button>
-                                <el-button size="mini" type="danger" @click="handleDelete(scope.$index, scope.row)">
-                                    Delete</el-button>
-                            </template>
-                        </el-table-column>
-                    </el-table>
-                </el-main>
-                <div class="block">
-                    <el-pagination>
-                    </el-pagination>
-                </div>
-            </el-container>
+            <el-main style="padding: 0px 0px 0px 20px;">
+                <!--将mydata属性绑定的值传给data  -->
+                <el-table :data="mydata">
+                    <!-- type为selection时选择多行数据时使用 Checkbox。 -->
+                    <el-table-column type="selection" width="55">
+                    </el-table-column>
+                    <el-table-column prop="date" label="日期" width="140" sortable>
+                    </el-table-column>
+                    <el-table-column prop="name" label="姓名" width="120" sortable>
+                    </el-table-column>
+                    <el-table-column prop="address" label="地址" sortable>
+                    </el-table-column>
+                    <el-table-column align="right">
+                    </el-table-column>
+                </el-table>
+            </el-main>
         </el-container>
     </div>
 </template>
 
 
 <!-- 统计模板 -->
-<template id="statistics">
+<template id="statistics-template">
     <h1>statistics</h1>
 </template>
 <!-- 关于模板 -->
-<template id="about">
+<template id="about-template">
     <h1>about</h1>
 </template>
 <script type="text/javascript" src="js\dashboard.js"></script>
