@@ -32,8 +32,8 @@
                 </el-header> <!-- 左导航栏 -->
                 <el-container>
                     <el-aside class="nav-shadow" style="height:100%;width:120px">
-                        <el-menu :default-active="this.$route.path" router mode="vertical"
-                            style="display:block;position: fixed; top: 0px; bottom: 0px;padding-top: 60px">
+                        <el-menu :default-active="this.$route.path" mode="vertical"
+                            style="display:block;position: fixed; top: 0px; bottom: 0px;padding-top: 60px" router>
                             <el-menu-item index="/overview"> <i class="el-icon-menu"></i> <span slot="title">总览</span>
                             </el-menu-item>
                             <el-menu-item index="/problem"> <i class="el-icon-question"></i> <span
@@ -48,6 +48,7 @@
                     <el-main>
                         <!-- 占位符，用来在当中根据路由来展示对应的内容 -->
                         <!--props自定义的mydata属性双向绑定tabledata  -->
+                        <!--143  -->
                         <router-view :mydata="tableData"></router-view>
                     </el-main>
                 </el-container>
@@ -55,7 +56,6 @@
         </div>
     </template>
 </body>
-
 <!-- 总览布局 -->
 <template id="overview-template">
     <div id="overview">
@@ -114,8 +114,8 @@
 <!-- 问题详情模板 -->
 <template id="problem-template">
     <div id="problem">
-        <el-container style="height: 670px; border: 1px solid #eee">
-            <el-aside width="200px" style="background-color: rgb(238, 241, 246)">
+        <el-container style=" border: 1px solid #eee;height:670px">
+            <el-aside width="200px">
                 <el-menu style="position:fixed;width: 200px;height: 100%;">
                     <el-menu-item index="1">
                         <template slot="title"><i class="el-icon-message"></i>全部问题</template>
@@ -137,22 +137,77 @@
                     </el-menu-item>
                 </el-menu>
             </el-aside>
-            <el-main style="padding: 0px 0px 0px 20px;">
-                <!--将mydata属性绑定的值传给data  -->
-                <el-table :data="mydata">
-                    <!-- type为selection时选择多行数据时使用 Checkbox。 -->
-                    <el-table-column type="selection" width="55">
-                    </el-table-column>
-                    <el-table-column prop="date" label="日期" width="140" sortable>
-                    </el-table-column>
-                    <el-table-column prop="name" label="姓名" width="120" sortable>
-                    </el-table-column>
-                    <el-table-column prop="address" label="地址" sortable>
-                    </el-table-column>
-                    <el-table-column align="right">
-                    </el-table-column>
-                </el-table>
-            </el-main>
+            <el-container>
+                <el-main style="padding: 0px 0px 0px 20px;">
+                    <!--将mydata属性绑定的值传给data  -->
+                    <el-table :data="mydata">
+                        <!-- type为selection时选择多行数据时使用 Checkbox。 -->
+                        <el-table-column type="selection" width="55">
+                        </el-table-column>
+                        <el-table-column prop="status" label="问题状态" width="100">
+                            <template slot-scope="scope">
+                                <!-- dropdown中的command：点击菜单项(dropdown-item)触发的事件回调dropdown-item中command指令的值 -->
+                                <el-dropdown trigger="click" @command="statusDropdownChoose">
+                                    <el-tag>
+                                        {{scope.row.status}}
+                                        <i class="el-icon-arrow-down el-icon--right"></i>
+                                    </el-tag>
+                                    <el-dropdown-menu slot="dropdown">
+                                        <!-- :command="status.text"来获取值 -->
+                                        <el-dropdown-item v-for="status in statusDropdown" :command="status.text">
+                                            {{status.text}}
+                                        </el-dropdown-item>
+                                    </el-dropdown-menu>
+                                </el-dropdown>
+                            </template>
+                        </el-table-column>
+                        <el-table-column label="姓名" width="100">
+                            <template slot-scope="scope">
+                                <div>
+                                    <el-tag size="medium">{{ scope.row.name }}</el-tag>
+                                </div>
+                            </template>
+                        </el-table-column>
+                        <el-table-column prop="address" label="地址" sortable>
+                        </el-table-column>
+                        <el-table-column prop="priority" label="优先级">
+                            <template slot-scope="scope">
+                                <el-dropdown trigger="click" @command="priorityDropdownChoose">
+                                    <el-tag>
+                                        {{scope.row.priority}}
+                                        <i class="el-icon-arrow-down el-icon--right"></i>
+                                    </el-tag>
+                                    <el-dropdown-menu slot="dropdown">
+                                        <el-dropdown-item v-for="priorities in priorityDropdown"
+                                            :command="priorities.text">
+                                            {{priorities.text}}
+                                        </el-dropdown-item>
+                                    </el-dropdown-menu>
+                                </el-dropdown>
+                            </template>
+                        </el-table-column>
+                        <el-table-column prop="belongto" label="指派关系"></el-table-column>
+                        <el-table-column label="日期" width="140" sortable>
+                            <template slot-scope="scope">
+                                <i class="el-icon-time"></i>
+                                <span style="margin-left: 10px">{{ scope.row.date }}</span>
+                            </template>
+                        </el-table-column>
+                        <el-table-column label="操作">
+                            <template slot-scope="scope">
+                                <el-button size="mini">编辑</el-button>
+                                <el-button size="mini" type="danger">删除
+                                </el-button>
+                            </template>
+                        </el-table-column>
+                    </el-table>
+                </el-main>
+                <el-footer style="padding:0 10px">
+                    <el-form style="background-color: #FFF;height:100%;width:99.5%">
+                        <el-button type="warning" size="mini" style="margin:20px 0 0 10px">批量删除</el-button>
+                    </el-form>
+                </el-footer>
+            </el-container>
         </el-container>
     </div>
 </template>
