@@ -40,7 +40,11 @@ var router = new VueRouter({
             path: '/problem',
             component: {
                 //props定义一个组件属性
-                props: ['mydata'],
+                props: ['mydata','myStatus'],
+            	/*props:{
+            		mydata: tableData,
+            		myStatus: statusDropdown
+            	}*/
                 template: '#problem-template'
             }
             // component:problem,
@@ -77,26 +81,68 @@ var dashboard = new Vue({
     methods: {
         statusDropdownChoose,
         priorityDropdownChoose,
+        filterHandler,
     },
-    data() {
-
-        return {
+    data: {
             // search: '',
-            tableData: Array(20).fill(tableItem),
+            /*tableData: Array(20).fill(tableItem),*/
+            tableData: [{
+                date: '2016-05-01',
+                name: '王小虎1',
+                address: '上海市普陀区金沙江路 1511 弄',
+                status: '新建',
+                priority: '致命',
+                belongto: '1' + 'to' + '2',
+            }, {
+                date: '2016-05-02',
+                name: '王小虎2',
+                address: '上海市普陀区金沙江路 1512 弄',
+                status: '处理中',
+                priority: '严重',
+                belongto: '2' + 'to' + '3',
+            }, {
+                date: '2016-05-03',
+                name: '王小虎3',
+                address: '上海市普陀区金沙江路 1513 弄',
+                status: '已拒绝',
+                priority: '一般',
+                belongto: '3' + 'to' + '4',
+            }, {
+                date: '2016-05-04',
+                name: '王小虎4',
+                address: '上海市普陀区金沙江路 1514 弄',
+                status: '已验收',
+                priority: '轻微',
+                belongto: '4' + 'to' + '5',
+            },
+            {
+                date: '2016-05-05',
+                name: '王小虎5',
+                address: '上海市普陀区金沙江路 1515 弄',
+                status: '已解决',
+                priority: '一般',
+                belongto: '5' + 'to' + '6',
+            }],
+            statusDropdown : [
+                { text: '新建', value: '新建' },
+                { text: '处理中', value: '处理中' },
+                { text: '已拒绝', value: '已拒绝' },
+                { text: '已验收', value: '已验收' },
+                { text: '已解决', value: '已解决' },
+            ],
         }
-    }
 })
 //状态数组
-var statusDropdown = [
-    { text: '新建' ,color:'rgba(31,93,234,1)'},
-    { text: '处理中',color:'rgba(255,149,0,1)' },
-    { text: '已拒绝' ,color:'rgba(107,121,142,1)'},
-    { text: '已验收' ,color:'rgba(37,179,250,1)'},
-    { text: '已解决',color:'rgba(0,193,133,1)' }
-]
+/*var statusDropdown = [
+    { text: '新建', value: '新建' },
+    { text: '处理中', value: '处理中' },
+    { text: '已拒绝', value: '已拒绝' },
+    { text: '已验收', value: '已验收' },
+    { text: '已解决', value: '已解决' },
+]*/
 //将command（状态）值赋给表中数据
 function statusDropdownChoose(command) {
-    tableItem.status = command;
+	console.log(command)
 }
 
 //优先级数组
@@ -108,24 +154,10 @@ var priorityDropdown = [
 ]
 //将command（优先级）值赋给表中数据
 function priorityDropdownChoose(command) {
-    tableItem.priority = command;
+	console.log(command)
 }
-// var problems = new Vue({
-//     //	el:"#problem-template",
-//     methods: {},
-//     data() {
-//         const item = {
-//             date: '2016-05-02',
-//             name: '王小虎',
-//             address: '上海市普陀区金沙江路 1518 弄'
-//         };
-//         return {
-//             // search: '',
-//             tableData: Array(20).fill(item),
-//             currentPage1: 5,
-//             currentPage2: 5,
-//             currentPage3: 5,
-//             currentPage4: 4
-//         }
-//     }
-// })
+
+function filterHandler(value, row, column) {
+    const property = column['property'];
+    return row[property] === value;
+}

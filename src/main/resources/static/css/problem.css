@@ -1,11 +1,18 @@
-#problem .el-header {
+ .problem-el-header {
     background-color: #F2F6FC;
     color: #333;
-    line-height: 60px;
-    margin-top:4px;
+    line-height: 55px;
+    padding: 0px 0px 0px 0px;
 } 
 
+.problem-el-main{
+	padding: 0px 0px 0px 0px;
+}
 
-#problem .el-aside {
-    color: black;
+.problem-el-footer{
+	padding: 0px 0px 0px 0px;
+}
+#problem .el-menu-item{
+    font-family: PingFangSC-Regular;
+    font-size: 12px;
 }
