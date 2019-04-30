@@ -7,6 +7,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.annotation.Rollback;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -28,32 +29,31 @@ public class UserMapperTest {
 	@Autowired
 	private UserDao UserMapper;
 
-//	@Test
-//	public void testInsert() throws Exception {
-//		UserEntity userEntity=new UserEntity();
-//		userEntity.userName="aa";
-//		userEntity.passWord="123";
-//		userEntity.ID="1";
-//		UserMapper.insert(userEntity);
-//		Assert.assertEquals(2, UserMapper.getAll().size());
-//	}
+	@Test
+	public void testInsert() throws Exception {
+		UserEntity userEntity=new UserEntity();
+		userEntity.ID="2";
+		userEntity.username="aaa";
+		userEntity.password="aaa";
+		UserMapper.insert(userEntity);
+//		Assert.assertEquals(2, UserMapper.insert(userEntity).size());
+	}
 
 	@Test
 	public void testQuery() throws Exception {
-		List<UserEntity> users = UserMapper.getAll();
+		List<UserEntity> users = UserMapper.selectAll();
 //		System.out.println(users.toString());
 		for(UserEntity info:users)
 		{
-			System.out.println(info.toString());
+			System.out.println(info.username);
 		}
 	}
 //	
-//	@Test
-//	public void testUpdate() throws Exception {
-//		UserEntity user = UserMapper.getOne(3l);
-//		System.out.println(user.toString());
-//		user.setNickName("neo");
-//		UserMapper.update(user);
-//		Assert.assertTrue(("neo".equals(UserMapper.getOne(3l).getNickName())));
-//	}
+	@Test
+//	@Rollback(false)
+	public void testUpdate() throws Exception {
+		UserEntity user = UserMapper.selectByPrimaryKey("1");
+		user.setPassword("456");
+		UserMapper.updateByPrimaryKey(user);
+	}
 }

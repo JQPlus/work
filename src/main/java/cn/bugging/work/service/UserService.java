@@ -16,5 +16,6 @@ public interface UserService {
 	 */
 //	public Page<UserEntity> getAll(int pageNo, int pageSize);
 	
+	//获取user所有信息
 	public List<UserEntity> getAll();
 }

@@ -21,7 +21,7 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public List<UserEntity> getAll() {
 		// TODO Auto-generated method stub
-		return userDao.getAll();
+		return userDao.selectAll();
 	}
 //	@Override
 //    public Page<UserEntity> getAll(int pageNo, int pageSize) {
