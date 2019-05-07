@@ -27,33 +27,42 @@ public class UserMapperTest {
 	*
 	*/
 	@Autowired
-	private UserDao UserMapper;
+	private UserDao userdao;
 
-	@Test
-	public void testInsert() throws Exception {
-		UserEntity userEntity=new UserEntity();
-		userEntity.ID="2";
-		userEntity.username="aaa";
-		userEntity.password="aaa";
-		UserMapper.insert(userEntity);
-//		Assert.assertEquals(2, UserMapper.insert(userEntity).size());
-	}
+//	@Test
+//	public void testInsert() throws Exception {
+//		UserEntity userEntity=new UserEntity();
+//		userEntity.ID="2";
+//		userEntity.username="aaa";
+//		userEntity.password="aaa";
+//		UserMapper.insert(userEntity);
+////		Assert.assertEquals(2, userdao.insert(userEntity).size());
+//	}
 
+//	@Test
+//	public void testQuery() throws Exception {
+//		List<UserEntity> users = userdao.getAll();
+////		System.out.println(users.toString());
+//		for(UserEntity info:users)
+//		{
+//			System.out.println(info.username);
+//		}
+//	}
+	
 	@Test
-	public void testQuery() throws Exception {
-		List<UserEntity> users = UserMapper.selectAll();
+	public void testselectByName() throws Exception {
+		String username="admin";
+		UserEntity users = userdao.getByUsername(username);
 //		System.out.println(users.toString());
-		for(UserEntity info:users)
-		{
-			System.out.println(info.username);
-		}
+		System.out.println(users); 
 	}
+	
 //	
-	@Test
-//	@Rollback(false)
-	public void testUpdate() throws Exception {
-		UserEntity user = UserMapper.selectByPrimaryKey("1");
-		user.setPassword("456");
-		UserMapper.updateByPrimaryKey(user);
-	}
+//	@Test
+////	@Rollback(false)
+//	public void testUpdate() throws Exception {
+//		UserEntity user = userdao.selectByPrimaryKey("1");
+//		user.setPassword("456");
+//		UserMapper.updateByPrimaryKey(user);
+//	}
 }

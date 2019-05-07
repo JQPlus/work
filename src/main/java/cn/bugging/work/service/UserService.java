@@ -18,4 +18,6 @@ public interface UserService {
 	
 	//获取user所有信息
 	public List<UserEntity> getAll();
+	public UserEntity findUserById(String userID);
+	public UserEntity getByUsername(String username);
 }

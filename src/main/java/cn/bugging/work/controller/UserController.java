@@ -10,22 +10,30 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.alibaba.fastjson.JSONObject;
+import com.auth0.jwt.JWT;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageInfo;
 
 import cn.bugging.work.entity.UserEntity;
+import cn.bugging.work.service.TokenService;
 import cn.bugging.work.service.UserService;
 import cn.bugging.work.service.impl.UserServiceImpl;
+import cn.bugging.work.utils.anno.PassToken;
+import cn.bugging.work.utils.anno.UserLoginToken;
 
-@Controller
+//@Controller
 //实现该类下所有方法都会自动以Json格式返回数据(放在方法前同理)=@controller+@responsebody
-// @RestController
+@RestController
+
 public class UserController {
 	/**
 	 * @Auther Huangjq
@@ -35,42 +43,54 @@ public class UserController {
 	 */
 	@Autowired
 	private UserService userService;
-		
 
-	
-//	@RequestMapping(value="/user", method=RequestMethod.GET)
-//	@ResponseBody
-//	public ModelMap list (int pageNo, int pageSize){
-//        ModelMap modelMap =new ModelMap();
-//        try{
-//            Page<UserEntity> userList=userService.getAll(pageNo,pageSize);
-//             //获取分页查询后的数据
-//             PageInfo<UserEntity> pageInfo=new PageInfo<UserEntity>(userList);
-//            modelMap.put("userList", userList);
-//            // 总记录数
-//            modelMap.put("total", pageInfo.getTotal());
-//            // 当前页
-//            modelMap.put("courrentPage", pageInfo.getPageNum());
-//        }catch(Exception e){
-//            e.printStackTrace();
-//        }
-//        return  modelMap;
-//    }
-//	@ResponseBody
-	
-//	public List<UserEntity> list()
-//	{
-//		return userService.getAll();
-//	}
-//	 public ModelAndView login(HttpServletRequest request,HttpServletResponse response){
-//	 	ModelAndView mav = new ModelAndView();
-//	 	mav.setViewName("user");
-//	 	return mav;
-//	 }
-	@GetMapping(value = "/index")
-	public List<UserEntity> list()
-	{
-		return userService.getAll();
-	}
+    @Autowired
+    TokenService tokenService;
+
+    //登录
+    @PostMapping("/users/login")
+    public Object login(@RequestBody UserEntity user){
+    	JSONObject jsonObject=new JSONObject();
+        UserEntity userForBase=userService.getByUsername(user.username);
+        if(userForBase==null){
+        	jsonObject.put("code",1000);
+            jsonObject.put("message","登录失败,用户不存在");
+            return jsonObject;
+        }else {
+            if (!userForBase.getPassword().equals(user.getPassword())){
+            	jsonObject.put("code",1001);
+                jsonObject.put("message","登录失败,密码错误");
+                return jsonObject;
+            }else {
+                String token = tokenService.getToken(userForBase);
+                jsonObject.put("code",20000);
+                jsonObject.put("token", token);
+                jsonObject.put("roles", userForBase.username);
+//                jsonObject.put("user", userForBase);
+                return jsonObject;
+            }
+        }
+    }
+    
+    @GetMapping("/users/info")
+    public Object getInfo(HttpServletRequest request){
+    	String token = request.getHeader("token");
+    	String userId = JWT.decode(token).getAudience().get(0);
+    	UserEntity user = userService.findUserById(userId);
+		JSONObject jsonObject=new JSONObject();
+    	if(token!=null||token!="")
+    	{
+            jsonObject.put("roles",user.username);
+    	}
+        return jsonObject;
+    }
+    
+    @PostMapping("/users/logout")
+    public Object logout(){
+		JSONObject jsonObject=new JSONObject();
+            jsonObject.put("code",20000);
+        return jsonObject;
+    }
+    
 	
 }

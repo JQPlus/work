@@ -1,13 +1,8 @@
 package cn.bugging.work.entity;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
-//实体类注解
-@Entity
-//表名和实体类名相同则可省略
-@Table(name = "user")
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.algorithms.Algorithm;
+
 public class UserEntity {
 	/**
 	 * @Auther Huangjq
@@ -15,11 +10,6 @@ public class UserEntity {
 	 * @Description:user用户实体类
 	 *
 	 */
-	//主键注释
-	@Id 
-	//如果表名中的列与实体类中的字段不同名，则如此来修改
-	//其中 name 属性的值为数据库中的列名
-	@Column(name="id")
 	// 主键ID
 	public String ID;
 	// 用户名
@@ -27,6 +17,19 @@ public class UserEntity {
 	// 密码
 	public String password;
 	
+	/**
+	 * token的生成方法,
+	 * Algorithm.HMAC256():使用HS256生成token,密钥则是用户的密码，唯一密钥的话可以保存在服务端。
+	 * withAudience()存入需要保存在token的信息，这里我把用户ID存入token中
+	 * @param user
+	 * @return
+	 */
+	public String getToken(UserEntity user) {
+        String token="";
+        token= JWT.create().withAudience(user.getID())
+                .sign(Algorithm.HMAC256(user.getPassword()));
+        return token;
+    }
 
 	public String getUsername() {
 		return username;

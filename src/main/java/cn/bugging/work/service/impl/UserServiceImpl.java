@@ -21,13 +21,25 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public List<UserEntity> getAll() {
 		// TODO Auto-generated method stub
-		return userDao.selectAll();
+		return userDao.getAll();
 	}
 //	@Override
 //    public Page<UserEntity> getAll(int pageNo, int pageSize) {
 //        PageHelper.startPage(pageNo,pageSize);
 //        return userMapper.getAll();
 //    }
+
+	@Override
+	public UserEntity findUserById(String userID) {
+		// TODO Auto-generated method stub
+		return userDao.getUserByID(userID);
+	}
+
+	@Override
+	public UserEntity getByUsername(String username) {
+		// TODO Auto-generated method stub
+		return userDao.getByUsername(username);
+	}
 	
 	
 }
