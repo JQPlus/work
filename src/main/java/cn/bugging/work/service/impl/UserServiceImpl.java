@@ -36,9 +36,9 @@ public class UserServiceImpl implements UserService{
 	}
 
 	@Override
-	public UserEntity getByUsername(String username) {
+	public UserEntity getUserByUsername(String username) {
 		// TODO Auto-generated method stub
-		return userDao.getByUsername(username);
+		return userDao.getUserByUsername(username);
 	}
 	
 	

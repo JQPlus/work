@@ -26,7 +26,7 @@ public interface UserDao{
 	UserEntity getUserByID(String ID);
 	
 	@Select("SELECT * FROM user WHERE username = #{username}")
-	UserEntity getByUsername(String username);
+	UserEntity getUserByUsername(String username);
 
 	@Insert("INSERT INTO user(id,username,password) VALUES(#{ID,jdbcType=VARCHAR},#{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR} )")
 	void insert(UserEntity user);

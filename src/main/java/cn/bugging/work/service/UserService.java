@@ -16,8 +16,21 @@ public interface UserService {
 	 */
 //	public Page<UserEntity> getAll(int pageNo, int pageSize);
 	
-	//获取user所有信息
+	/**
+	 * 获取user所有信息
+	 * @return
+	 */
 	public List<UserEntity> getAll();
+	/**
+	 * 根据id查询user
+	 * @param userID
+	 * @return
+	 */
 	public UserEntity findUserById(String userID);
-	public UserEntity getByUsername(String username);
+	/**
+	 * 根据username查找user
+	 * @param username
+	 * @return
+	 */
+	public UserEntity getUserByUsername(String username);
 }
