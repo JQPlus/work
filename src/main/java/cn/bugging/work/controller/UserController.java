@@ -3,6 +3,7 @@ package cn.bugging.work.controller;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,11 +17,12 @@ import com.auth0.jwt.JWT;
 import cn.bugging.work.entity.UserEntity;
 import cn.bugging.work.service.TokenService;
 import cn.bugging.work.service.UserService;
-import cn.bugging.work.utils.Response;
+import cn.bugging.work.utils.consts.Response;
 
-//@Controller
-//实现该类下所有方法都会自动以Json格式返回数据(放在方法前同理)=@controller+@responsebody
+//实现该类下所有方法都会返回Json数据(放在方法前同理)=@controller+@responsebody
 @RestController
+//使用@RequestMapping后，返回值一般会被解析为返回路径，
+//如果需要返回的不是html页面，而是其他格式的（json，wml）数据， @Responsebody 直接写入HTTP 响应正文中，而不是把返回值解析未跳转路径
 @RequestMapping("/users")
 public class UserController {
 	/**
@@ -42,7 +44,7 @@ public class UserController {
 	 * @return
 	 */
 	@PostMapping("/login")
-	@ResponseBody
+	//@RequestBody 是将 HTTP 请求正文插入方法中，而不是通过将信息放在url里传值
 	public Object login(@RequestBody UserEntity user) {
 		JSONObject jsonObject = new JSONObject();
 		UserEntity userForBase = userService.getUserByUsername(user.username);
@@ -74,8 +76,7 @@ public class UserController {
 	 * @param request header中的token
 	 * @return
 	 */
-	@GetMapping("/info")
-	@ResponseBody
+	@PostMapping("/info")
 	public Object getInfo(HttpServletRequest request) {
 		String token = request.getHeader("Bugging");
 		String userId = "";

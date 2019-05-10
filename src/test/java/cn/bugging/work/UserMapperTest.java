@@ -59,7 +59,7 @@ public class UserMapperTest {
 //	@Test
 //	public void testselectByName() throws Exception {
 //		String username="admin";
-//		UserEntity users = userdao.getByUsername(username);
+//		UserEntity users = userdao.getUserByUsername(username);
 ////		System.out.println(users.toString());
 //		System.out.println(users); 
 //	}
