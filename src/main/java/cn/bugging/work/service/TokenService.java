@@ -63,7 +63,7 @@ public class TokenService {
 			verifier.verify(token);// 对token进行验证，错误则抛出异常
 			jsonObject.put("code", Response.CODE_ALL_CORRECT);
 			jsonObject.put("token", token);
-			jsonObject.put("roles", user.username);
+			jsonObject.put("roles", user.getUsername());
 		} catch (JWTVerificationException exception) {
 //			exception.printStackTrace();  
 			jsonObject.put("code", Response.CODE_TOKEN_OVERVUE);

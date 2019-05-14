@@ -8,15 +8,19 @@ public class TypeEntity {
 	 */
 	private String ID;
 	private String typeName;
+
 	public String getID() {
 		return ID;
 	}
+
 	public void setID(String iD) {
 		ID = iD;
 	}
+
 	public String getTypeName() {
 		return typeName;
 	}
+
 	public void setCategoryName(String typeName) {
 		this.typeName = typeName;
 	}

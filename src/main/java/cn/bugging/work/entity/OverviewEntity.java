@@ -9,7 +9,7 @@ import net.sf.jsqlparser.expression.DateTimeLiteralExpression.DateTime;
  */
 public class OverviewEntity {
 	/** 问题-当前状态ID */
-	private String StatusID;
+	private String statusID;
 	/** 问题-当前状态名 */
 	private String statusName;
 	/** 问题优先级ID */
@@ -30,11 +30,11 @@ public class OverviewEntity {
 	private DateTime updatetime;
 
 	public String getStatusID() {
-		return StatusID;
+		return statusID;
 	}
 
 	public void setStatusID(String statusID) {
-		StatusID = statusID;
+		this.statusID = statusID;
 	}
 
 	public String getStatusName() {

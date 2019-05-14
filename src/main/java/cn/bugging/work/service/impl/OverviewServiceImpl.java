@@ -15,7 +15,7 @@ import cn.bugging.work.utils.consts.Status;
 import cn.bugging.work.utils.utils.MapResult;
 
 /**
- * @author HuangJq @Date 2019年5月2日下午5:20:55
+ * @author HuangJq 
  * @Description 总览
  * 
  */
@@ -120,9 +120,9 @@ public class OverviewServiceImpl implements OverviewService {
 			list.add(MapResult.createChartMap(Status.CREATE, overviewDao.getMyCreateNum(creator)));
 			list.add(MapResult.createChartMap(Status.HANDLE, overviewDao.getMyHandlingNum(belongto)));
 			list.add(MapResult.createChartMap(Status.SOLVED, overviewDao.getMySolvedNum(belongto)));
-			list.add(MapResult.createChartMap(Status.REFUSE, overviewDao.getAMyRefusedNum()));
-			list.add(MapResult.createChartMap(Status.CHECKE, overviewDao.getMyCheckedNum()));
-			list.add(MapResult.createChartMap(Status.DELAY, overviewDao.getMyDelayedNum()));
+			list.add(MapResult.createChartMap(Status.REFUSE, overviewDao.getAMyRefusedNum(belongto)));
+			list.add(MapResult.createChartMap(Status.CHECKE, overviewDao.getMyCheckedNum(belongto)));
+			list.add(MapResult.createChartMap(Status.DELAY, overviewDao.getMyDelayedNum(belongto)));
 			// 清空value值为0的map,否则echart会显示出来
 						for (int i = 0; i < list.size(); i++) {
 							Map<String, Object> map = list.get(i);

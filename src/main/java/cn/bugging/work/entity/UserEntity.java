@@ -11,25 +11,11 @@ public class UserEntity {
 	 *
 	 */
 	// 主键ID
-	public String ID;
+	private String ID;
 	// 用户名
-	public String username;
+	private String username;
 	// 密码
-	public String password;
-	
-	/**
-	 * token的生成方法,
-	 * Algorithm.HMAC256():使用HS256生成token,密钥则是用户的密码，唯一密钥的话可以保存在服务端。
-	 * withAudience()存入需要保存在token的信息，这里我把用户ID存入token中
-	 * @param user
-	 * @return
-	 */
-	public String getToken(UserEntity user) {
-        String token="";
-        token= JWT.create().withAudience(user.getID())
-                .sign(Algorithm.HMAC256(user.getPassword()));
-        return token;
-    }
+	private String password;
 
 	public String getUsername() {
 		return username;

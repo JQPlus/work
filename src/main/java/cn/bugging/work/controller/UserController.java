@@ -47,7 +47,7 @@ public class UserController {
 	//@RequestBody 是将 HTTP 请求正文插入方法中，而不是通过将信息放在url里传值
 	public Object login(@RequestBody UserEntity user) {
 		JSONObject jsonObject = new JSONObject();
-		UserEntity userForBase = userService.getUserByUsername(user.username);
+		UserEntity userForBase = userService.getUserByUsername(user.getUsername());
 		// 用户不存在
 		if (userForBase == null) {
 			jsonObject.put("code", Response.CODE_USER_NOTEXIST);
@@ -63,7 +63,7 @@ public class UserController {
 				String token = tokenService.createToken(userForBase);
 				jsonObject.put("code", Response.CODE_ALL_CORRECT);
 				jsonObject.put("token", token);
-				jsonObject.put("roles", userForBase.username);
+				jsonObject.put("roles", userForBase.getUsername());
 //                jsonObject.put("user", userForBase);
 				return jsonObject;
 			}

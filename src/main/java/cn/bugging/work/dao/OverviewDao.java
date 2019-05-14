@@ -46,21 +46,21 @@ public interface OverviewDao {
 	 * @return 我拒绝问题数目
 	 */
 	@Select("SELECT COUNT(*) FROM bug_detail WHERE belongto=#{belongto} AND status_id=4")
-	int getAMyRefusedNum();
+	int getAMyRefusedNum(String belongto);
 
 	/**
 	 * 
 	 * @return 我被验收问题数目
 	 */
 	@Select("SELECT COUNT(*) FROM bug_detail WHERE belongto=#{belongto} AND status_id=5")
-	int getMyCheckedNum();
+	int getMyCheckedNum(String belongto);
 
 	/**
 	 * 
 	 * @return 我延期问题数目
 	 */
 	@Select("SELECT COUNT(*) FROM bug_detail WHERE belongto=#{belongto} AND status_id=6")
-	int getMyDelayedNum();
+	int getMyDelayedNum(String belongto);
 	
 	
 	/**
