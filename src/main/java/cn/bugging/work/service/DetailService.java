@@ -15,6 +15,8 @@ public interface DetailService {
 	 * @Description 所有bug信息
 	 */
 	List<DetailEntity> getAllDetail();
+	
+	List<DetailEntity> getInfoByID(String ID);
 
 	/**
 	 * 

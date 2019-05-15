@@ -1,10 +1,13 @@
 package cn.bugging.work.service.impl;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import cn.bugging.work.dao.DetailDao;
 import cn.bugging.work.entity.DetailEntity;
@@ -30,6 +33,7 @@ public class DetailServiceImpl implements DetailService {
 		// TODO Auto-generated method stub
 		List<DetailEntity> originList = detailDao.getAllDetail();
 		List<DetailEntity> resultList = new ArrayList<>();
+		System.out.println(originList.get(0).getUpdatetime());
 		resultList.addAll(originList);
 		for (DetailEntity list : resultList) {
 			if (list != null) {
@@ -39,6 +43,63 @@ public class DetailServiceImpl implements DetailService {
 			}
 		}
 		return resultList;
+	}
+
+	@Override
+	public boolean insert(DetailEntity detail) {
+		// TODO Auto-generated method stub
+		try {
+			// 生成随机uuid
+			String uuid = UUID.randomUUID().toString().replace("-", "").toLowerCase();
+			Date date = new Date();
+			detail.setID(uuid);
+			detail.setCreatetime(date);
+			detail.setUpdatetime(date);
+			detail.setStatusID(detailDao.getStatusID(detail.getStatusName()));
+			detail.setTypeID(detailDao.getTypeID(detail.getTypeName()));
+			detail.setPriorityID(detailDao.getpriorityID(detail.getPriorityName()));
+			detailDao.insert(detail);
+			return true;
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return false;
+	}
+
+	@Override
+	public boolean update(@RequestBody DetailEntity detail) {
+		// TODO Auto-generated method stub
+		try {
+			Date date = new Date();
+			detail.setUpdatetime(date);
+			detailDao.update(detail);
+			return true;
+		} catch (NullPointerException e) {
+			// TODO: handle exception
+		}
+		return false;
+	}
+
+	@Override
+	public boolean delete(String ID) {
+		// TODO Auto-generated method stub
+		try {
+			List<DetailEntity> list = detailDao.getInfoByID(ID);
+			if (!list.isEmpty()) {
+				detailDao.delete(ID);
+				return true;
+			}
+		} catch (NullPointerException e) {
+			// TODO: handle exception
+			throw new NullPointerException("当前Bug信息不存在，请重试！");
+		}
+		return false;
+	}
+
+	@Override
+	public List<DetailEntity> getInfoByID(String ID) {
+		// TODO Auto-generated method stub
+		return detailDao.getInfoByID(ID);
 	}
 
 	@Override
@@ -93,48 +154,6 @@ public class DetailServiceImpl implements DetailService {
 	public String getTypeID() {
 		// TODO Auto-generated method stub
 		return null;
-	}
-
-	@Override
-	public boolean insert(DetailEntity detail) {
-		// TODO Auto-generated method stub
-		try {
-			detailDao.insert(detail);
-			return true;
-		} catch (Exception e) {
-			// TODO: handle exception
-		}
-		return false;
-	}
-
-	@Override
-	public boolean update(DetailEntity detail) {
-		// TODO Auto-generated method stub
-		try {
-			if (!detail.getID().isEmpty()) {
-				detailDao.update(detail);
-				return true;
-			}
-		} catch (NullPointerException e) {
-			// TODO: handle exception
-			throw new NullPointerException("当前Bug信息不存在，请重试！");
-		}
-		return false;
-	}
-
-	@Override
-	public boolean delete(String ID) {
-		// TODO Auto-generated method stub
-		try {
-			List<DetailEntity> list = detailDao.getDetailByID(ID);
-			if (!list.isEmpty()) {
-				detailDao.delete(ID);
-			}
-		} catch (NullPointerException e) {
-			// TODO: handle exception
-			throw new NullPointerException("当前Bug信息不存在，请重试！");
-		}
-		return false;
 	}
 
 }

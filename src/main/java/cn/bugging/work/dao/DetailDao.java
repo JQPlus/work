@@ -28,7 +28,7 @@ public interface DetailDao {
 	@Results({ @Result(property = "statusID", column = "status_id"), @Result(property = "typeID", column = "type_id"),
 			@Result(property = "priorityID", column = "priority_id") })
 	List<DetailEntity> getAllDetail();
-	
+
 	/**
 	 * 
 	 * @param ID
@@ -36,8 +36,14 @@ public interface DetailDao {
 	 * @Description 根据bug ID来查询相应的bug信息
 	 */
 	@Select("SELECT * FROM bug_detail WHERE id=#{ID}")
-	List<DetailEntity> getDetailByID(String ID);
-	
+	List<DetailEntity> getInfoByID(String ID);
+
+	/**
+	 * 
+	 * @return 我新建的问题列表
+	 */
+	@Select("SELECT * FROM bug_detail WHERE creator=#{creator} AND status_id=1")
+	List<DetailEntity> getMyCreateInfo(String creator);
 	/**
 	 * 
 	 * @return bug状态的列表
@@ -132,8 +138,9 @@ public interface DetailDao {
 	 * @return
 	 * @Description 更新bug信息
 	 */
-	@Update("UPDATE bug_detail SET " + "type_id=#{typeID},status_id=#{statusID},priority_id=#{priorityID},"
-			+ "brief=#{brief} ,updatetime=#{updatetime} ,belongto=#{belongto}" + "WHERE id =#{ID}")
+	@Update("UPDATE bug_detail SET "
+			+ "type_id=#{typeID,jdbcType=VARCHAR},status_id=#{statusID,jdbcType=VARCHAR},priority_id=#{priorityID,jdbcType=VARCHAR},"
+			+ "brief=#{brief,jdbcType=VARCHAR} ,updatetime=#{updatetime} ,belongto=#{belongto,jdbcType=VARCHAR} WHERE id =#{ID,jdbcType=VARCHAR}")
 	boolean update(DetailEntity detail);
 
 	/**

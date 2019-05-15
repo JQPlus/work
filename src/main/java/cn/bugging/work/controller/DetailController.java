@@ -3,8 +3,13 @@ package cn.bugging.work.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import cn.bugging.work.dao.DetailDao;
@@ -26,29 +31,33 @@ public class DetailController {
 	@Autowired
 	private DetailService detailService;
 
-	@PostMapping("info")
+	@GetMapping("info")
 	public List<DetailEntity> getDetailInfo() {
 		return detailService.getAllDetail();
 	}
 
-	@PostMapping("/status")
+	@GetMapping("/status")
 	public List<StatusEntity> getStatus() {
 		return detailService.getStatusInfo();
 	}
 
-	@PostMapping("/type")
+	@GetMapping("/type")
 	public List<TypeEntity> getType() {
 		return detailService.getTypeInfo();
 	}
 
-	@PostMapping("/priority")
+	@GetMapping("/priority")
 	public List<PriorityEntity> getPriority() {
 		return detailService.getPriorityInfo();
 	}
 
 	@PostMapping("/insert")
-	public boolean insertDetail(DetailEntity detail) {
+	public boolean insertDetail(@RequestBody DetailEntity detail) {
 		try {
+			if (detailService.getInfoByID(detail.getID()).isEmpty()) {
+				detailService.insert(detail);
+				return true;
+			}
 
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -56,22 +65,28 @@ public class DetailController {
 		return false;
 	}
 
-	@PostMapping("/delete")
+	@DeleteMapping("/delete")
 	public boolean deleteDetail(String ID) {
 		try {
-
+			if (detailService.delete(ID))
+				return true;
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
 		return false;
 	}
 
-	@PostMapping("/update")
-	public boolean updateDetail(DetailEntity detail) {
+	@PutMapping("/update")
+	public boolean updateDetail(@RequestBody DetailEntity detail) {
 		try {
-			
+			if (!detailService.getInfoByID(detail.getID()).isEmpty()) {
+				detailService.update(detail);
+				return true;
+			}
+
 		} catch (Exception e) {
 			// TODO: handle exception
+			e.printStackTrace();
 		}
 		return false;
 	}
