@@ -40,10 +40,59 @@ public interface DetailDao {
 
 	/**
 	 * 
-	 * @return 我新建的问题列表
+	 * @param creator
+	 * @return
+	 * @Description 我创建的问题列表(创建人为自己)
 	 */
-	@Select("SELECT * FROM bug_detail WHERE creator=#{creator} AND status_id=1")
+	@Select("SELECT * FROM bug_detail WHERE creator=#{creator}")
+	@Results({ @Result(property = "statusID", column = "status_id"), @Result(property = "typeID", column = "type_id"),
+			@Result(property = "priorityID", column = "priority_id") })
 	List<DetailEntity> getMyCreateInfo(String creator);
+
+	/**
+	 * 
+	 * @param belongto
+	 * @return
+	 * @Description 待我解决的问题(所属人为自己，状态!=已拒绝和已验收)
+	 */
+	@Select("SELECT * FROM bug_detail WHERE belongto=#{belongto} AND status_id!=4 AND status_id!=5")
+	@Results({ @Result(property = "statusID", column = "status_id"), @Result(property = "typeID", column = "type_id"),
+			@Result(property = "priorityID", column = "priority_id") })
+	List<DetailEntity> getMyHandlingInfo(String belongto);
+
+	/**
+	 * 
+	 * @param belongto
+	 * @return
+	 * @Description 指派给我的问题
+	 */
+	@Select("SELECT * FROM bug_detail WHERE belongto=#{belongto}")
+	@Results({ @Result(property = "statusID", column = "status_id"), @Result(property = "typeID", column = "type_id"),
+			@Result(property = "priorityID", column = "priority_id") })
+	List<DetailEntity> getBelongtoMeInfo(String belongto);
+
+	/**
+	 * 
+	 * @param creator
+	 * @param belongto
+	 * @return
+	 * @Description 我跟踪的问题(创建人或者所属人为自己的问题，并且问题状态！=已拒绝和已验收)
+	 */
+	@Select("SELECT * FROM bug_detail WHERE creator=#{creator} OR belongto=#{belongto} AND status_id!=4 AND status_id!=5")
+	@Results({ @Result(property = "statusID", column = "status_id"), @Result(property = "typeID", column = "type_id"),
+			@Result(property = "priorityID", column = "priority_id") })
+	List<DetailEntity> getMyTraceInfo(String creator, String belongto);
+
+	/**
+	 * 
+	 * @return
+	 * @Description 所有未关闭的问题数目
+	 */
+	@Select("SELECT * FROM bug_detail WHERE status_id!=4 AND status_id!=5")
+	@Results({ @Result(property = "statusID", column = "status_id"), @Result(property = "typeID", column = "type_id"),
+			@Result(property = "priorityID", column = "priority_id") })
+	List<DetailEntity> getAllUnclosedInfo();
+
 	/**
 	 * 
 	 * @return bug状态的列表

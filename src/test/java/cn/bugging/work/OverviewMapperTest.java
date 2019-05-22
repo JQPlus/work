@@ -15,7 +15,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import cn.bugging.work.dao.OverviewDao;
 import cn.bugging.work.utils.consts.Status;
-import cn.bugging.work.utils.utils.MapResult;
+import cn.bugging.work.utils.filters.MapResult;
 
 @SpringBootTest
 @RunWith(SpringJUnit4ClassRunner.class)

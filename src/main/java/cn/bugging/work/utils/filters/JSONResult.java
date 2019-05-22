@@ -1,4 +1,4 @@
-package cn.bugging.work.utils.utils;
+package cn.bugging.work.utils.filters;
 
 import com.alibaba.fastjson.JSONObject;
 

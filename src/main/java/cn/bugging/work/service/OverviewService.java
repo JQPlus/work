@@ -3,6 +3,8 @@ package cn.bugging.work.service;
 import java.util.List;
 import java.util.Map;
 
+import cn.bugging.work.entity.UserEntity;
+
 public interface OverviewService {
 	/**
 	 * @param creator
@@ -101,5 +103,19 @@ public interface OverviewService {
 	 * @Description 生成overview中所有问题->饼形图统计数据的map，并放入list中
 	 */
 	List<Map<String, Object>> initAllPieChart(String creator, String belongto);
+	
+	/**
+	 * 
+	 * @param userName
+	 * @return 
+	 * @Description 根据输入的用户名添加自定义成员
+	 */
+	boolean addUser(String userName);
+	/**
+	 * 
+	 * @return 
+	 * @Description 获取用户列表
+	 */
+	List<UserEntity> getUser();
 
 }

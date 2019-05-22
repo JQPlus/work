@@ -2,15 +2,18 @@ package cn.bugging.work.dao;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Select;
+
+import cn.bugging.work.entity.UserEntity;
 
 public interface OverviewDao {
 
 	/**
 	 * 
-	 * @return 我新建的问题数目
+	 * @return 我创建的问题数目
 	 */
-	@Select("SELECT COUNT(*) FROM bug_detail WHERE creator=#{creator} AND status_id=1")
+	@Select("SELECT COUNT(*) FROM bug_detail WHERE creator=#{creator}")
 	int getMyCreateNum(String creator);
 
 	/**
@@ -22,7 +25,7 @@ public interface OverviewDao {
 
 	/**
 	 * 
-	 * @return 待我解决的问题数目(所属人为自己，状态!=已拒绝和已验收
+	 * @return 待我解决的问题数目(所属人为自己，状态!=已拒绝和已验收)
 	 */
 	@Select("SELECT COUNT(*) FROM bug_detail WHERE belongto=#{belongto} AND status_id!=4 AND status_id!=5")
 	int getMyHandlingNum(String belongto);
@@ -110,5 +113,22 @@ public interface OverviewDao {
 	 */
 	@Select("SELECT COUNT(*) FROM bug_detail WHERE status_id=6")
 	int getAllDelayedNum();
+	
+	/**
+	 * 
+	 * @param user
+	 * @return 
+	 * @Description 新增成员
+	 */
+	@Insert("INSERT INTO user (id,username,password)  VALUES (#{ID,jdbcType=VARCHAR},#{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR})")
+	boolean addUser(UserEntity user);
+	
+	/**
+	 * 
+	 * @return 
+	 * @Description 用户用户列表
+	 */
+	@Select("SELECT * FROM user")
+	List<UserEntity> getUser();
 
 }

@@ -18,7 +18,7 @@ import cn.bugging.work.entity.PriorityEntity;
 import cn.bugging.work.service.DetailService;
 
 /**
- * @author HuangJq @Date 2019年5月2日下午5:21:19
+ * @author HuangJq
  * @Description bug详情的业务逻辑实现
  * 
  */
@@ -33,7 +33,86 @@ public class DetailServiceImpl implements DetailService {
 		// TODO Auto-generated method stub
 		List<DetailEntity> originList = detailDao.getAllDetail();
 		List<DetailEntity> resultList = new ArrayList<>();
-		System.out.println(originList.get(0).getUpdatetime());
+		resultList.addAll(originList);
+		for (DetailEntity list : resultList) {
+			if (list != null) {
+				list.setStatusName(detailDao.getStatusNameByID(list.getStatusID()));
+				list.setTypeName(detailDao.getTypeNameByID(list.getTypeID()));
+				list.setPriorityName(detailDao.getPriorityNameByID(list.getPriorityID()));
+			}
+		}
+		return resultList;
+	}
+	
+	@Override
+	public List<DetailEntity> getMyCreateInfo(String creator) {
+		// TODO Auto-generated method stub
+				List<DetailEntity> originList = detailDao.getMyCreateInfo(creator);
+				List<DetailEntity> resultList = new ArrayList<>();
+				resultList.addAll(originList);
+				for (DetailEntity list : resultList) {
+					if (list != null) {
+						list.setStatusName(detailDao.getStatusNameByID(list.getStatusID()));
+						list.setTypeName(detailDao.getTypeNameByID(list.getTypeID()));
+						list.setPriorityName(detailDao.getPriorityNameByID(list.getPriorityID()));
+					}
+				}
+				return resultList;
+	}
+
+	@Override
+	public List<DetailEntity> getMyHandlingInfo(String belongto) {
+		// TODO Auto-generated method stub
+		List<DetailEntity> originList = detailDao.getMyHandlingInfo(belongto);
+		List<DetailEntity> resultList = new ArrayList<>();
+		resultList.addAll(originList);
+		for (DetailEntity list : resultList) {
+			if (list != null) {
+				list.setStatusName(detailDao.getStatusNameByID(list.getStatusID()));
+				list.setTypeName(detailDao.getTypeNameByID(list.getTypeID()));
+				list.setPriorityName(detailDao.getPriorityNameByID(list.getPriorityID()));
+			}
+		}
+		return resultList;
+	}
+
+	@Override
+	public List<DetailEntity> getBelongtoMeInfo(String belongto) {
+		// TODO Auto-generated method stub
+		List<DetailEntity> originList = detailDao.getBelongtoMeInfo(belongto);
+		List<DetailEntity> resultList = new ArrayList<>();
+		resultList.addAll(originList);
+		for (DetailEntity list : resultList) {
+			if (list != null) {
+				list.setStatusName(detailDao.getStatusNameByID(list.getStatusID()));
+				list.setTypeName(detailDao.getTypeNameByID(list.getTypeID()));
+				list.setPriorityName(detailDao.getPriorityNameByID(list.getPriorityID()));
+			}
+		}
+		return resultList;
+	}
+
+	@Override
+	public List<DetailEntity> getMyTraceInfo(String creator, String belongto) {
+		// TODO Auto-generated method stub
+		List<DetailEntity> originList = detailDao.getMyTraceInfo(creator, belongto);
+		List<DetailEntity> resultList = new ArrayList<>();
+		resultList.addAll(originList);
+		for (DetailEntity list : resultList) {
+			if (list != null) {
+				list.setStatusName(detailDao.getStatusNameByID(list.getStatusID()));
+				list.setTypeName(detailDao.getTypeNameByID(list.getTypeID()));
+				list.setPriorityName(detailDao.getPriorityNameByID(list.getPriorityID()));
+			}
+		}
+		return resultList;
+	}
+
+	@Override
+	public List<DetailEntity> getAllUnclosedInfo() {
+		// TODO Auto-generated method stub
+		List<DetailEntity> originList = detailDao.getAllUnclosedInfo();;
+		List<DetailEntity> resultList = new ArrayList<>();
 		resultList.addAll(originList);
 		for (DetailEntity list : resultList) {
 			if (list != null) {

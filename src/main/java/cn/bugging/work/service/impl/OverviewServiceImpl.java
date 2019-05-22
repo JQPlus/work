@@ -4,18 +4,20 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
 import cn.bugging.work.dao.OverviewDao;
+import cn.bugging.work.entity.UserEntity;
 import cn.bugging.work.service.OverviewService;
 import cn.bugging.work.utils.consts.Status;
-import cn.bugging.work.utils.utils.MapResult;
+import cn.bugging.work.utils.filters.MapResult;
 
 /**
- * @author HuangJq 
+ * @author HuangJq
  * @Description 总览
  * 
  */
@@ -91,6 +93,13 @@ public class OverviewServiceImpl implements OverviewService {
 		return overviewDao.getAllDelayedNum();
 	}
 
+	/**
+	 * 
+	 * @param name
+	 * @param value
+	 * @return
+	 * @Description 生成overview中关于我->统计数据的map
+	 */
 	@Override
 	public Map<String, Integer> initStatistic(String creator, String belongto) {
 		Map<String, Integer> map = new HashMap<>();
@@ -124,15 +133,16 @@ public class OverviewServiceImpl implements OverviewService {
 			list.add(MapResult.createChartMap(Status.CHECKE, overviewDao.getMyCheckedNum(belongto)));
 			list.add(MapResult.createChartMap(Status.DELAY, overviewDao.getMyDelayedNum(belongto)));
 			// 清空value值为0的map,否则echart会显示出来
-						for (int i = 0; i < list.size(); i++) {
-							Map<String, Object> map = list.get(i);
-							if (map.get("value").equals(0)) {
-								list.remove(map);
-								i -= 1;
-							}
-						}
+			for (int i = 0; i < list.size(); i++) {
+				Map<String, Object> map = list.get(i);
+				if (map.get("value").equals(0)) {
+					list.remove(map);
+					i -= 1;
+				}
+			}
 		} catch (Exception e) {
 			// TODO: handle exception
+			e.printStackTrace();
 		}
 		return list;
 	}
@@ -166,6 +176,25 @@ public class OverviewServiceImpl implements OverviewService {
 			// TODO: handle exception
 		}
 		return list;
+	}
+
+	@Override
+	public boolean addUser(String userName) {
+		// TODO Auto-generated method stub
+		UserEntity user = new UserEntity();
+		String uuid = UUID.randomUUID().toString().replace("-", "").toLowerCase();
+		user.setID(uuid);
+		user.setUsername(userName);
+		user.setPassword(userName);
+		if (overviewDao.addUser(user)) {
+			return true;
+		}
+		return false;
+	}
+
+	@Override
+	public List<UserEntity> getUser() {
+		return overviewDao.getUser();
 	}
 
 }

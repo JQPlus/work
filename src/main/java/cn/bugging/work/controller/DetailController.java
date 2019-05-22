@@ -31,9 +31,34 @@ public class DetailController {
 	@Autowired
 	private DetailService detailService;
 
-	@GetMapping("info")
+	@GetMapping("/info")
 	public List<DetailEntity> getDetailInfo() {
 		return detailService.getAllDetail();
+	}
+
+	@PostMapping("/create")
+	public List<DetailEntity> getMyCreateInfo(String creator) {
+		return detailService.getMyCreateInfo(creator);
+	}
+
+	@PostMapping("/handling")
+	public List<DetailEntity> getMyHandlingInfo(String belongto) {
+		return detailService.getMyHandlingInfo(belongto);
+	}
+
+	@PostMapping("/belong")
+	public List<DetailEntity> getBelongtoMeInfo(String belongto) {
+		return detailService.getBelongtoMeInfo(belongto);
+	}
+
+	@PostMapping("/trace")
+	public List<DetailEntity> getMyTraceInfo(String creator, String belongto) {
+		return detailService.getMyTraceInfo(creator, belongto);
+	}
+
+	@PostMapping("/unclose")
+	public List<DetailEntity> getAllUnclosedInfo() {
+		return detailService.getAllUnclosedInfo();
 	}
 
 	@GetMapping("/status")

@@ -2,6 +2,8 @@ package cn.bugging.work.service;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Select;
+
 import cn.bugging.work.entity.DetailEntity;
 import cn.bugging.work.entity.StatusEntity;
 import cn.bugging.work.entity.TypeEntity;
@@ -16,8 +18,55 @@ public interface DetailService {
 	 */
 	List<DetailEntity> getAllDetail();
 	
+	/**
+	 * 
+	 * @param ID
+	 * @return 
+	 * @Description 根据信息ID查找信息
+	 */
 	List<DetailEntity> getInfoByID(String ID);
+	
+	/**
+	 * 
+	 * @param creator
+	 * @return 
+	 * @Description 我创建的问题列表(创建人为自己)
+	 */
+	List<DetailEntity> getMyCreateInfo(String creator);
+	
 
+	/**
+	 * 
+	 * @param belongto
+	 * @return 
+	 * @Description 待我解决的问题(所属人为自己，状态!=已拒绝和已验收)
+	 */
+	List<DetailEntity> getMyHandlingInfo(String belongto);
+	
+	/**
+	 * 
+	 * @param belongto
+	 * @return 
+	 * @Description 指派给我的问题
+	 */
+	List<DetailEntity> getBelongtoMeInfo(String belongto);
+
+	/**
+	 * 
+	 * @param creator
+	 * @param belongto
+	 * @return 
+	 * @Description 我跟踪的问题(创建人或者所属人为自己的问题，并且问题状态！=已拒绝和已验收)
+	 */
+	List<DetailEntity> getMyTraceInfo(String creator,String belongto);
+	
+	/**
+	 * 
+	 * @return 
+	 * @Description 所有未关闭的问题数目
+	 */
+	List<DetailEntity> getAllUnclosedInfo();
+	
 	/**
 	 * 
 	 * @return bug状态的列表

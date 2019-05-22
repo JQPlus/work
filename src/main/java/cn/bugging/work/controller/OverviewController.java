@@ -5,12 +5,12 @@ import java.util.Map;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-
-
+import cn.bugging.work.entity.UserEntity;
 import cn.bugging.work.service.OverviewService;
 
 
@@ -59,6 +59,24 @@ public class OverviewController {
 	@PostMapping("/allchart")
 	public List<Map<String, Object>> initAllPieChart(String creator, String belongto) {
 		return overviewService.initAllPieChart(creator, belongto);
+	}
+	/**
+	 * 
+	 * @param userName
+	 * @return 
+	 * @Description 添加用户成员操作
+	 */
+	@PostMapping("/adduser")
+	public boolean addUser(String userName) {
+		if(overviewService.addUser(userName)){
+			return true;
+		}
+		return false;
+	}
+	
+	@GetMapping("/getuser")
+	public List<UserEntity> getUser() {
+		return overviewService.getUser();
 	}
 
 }
