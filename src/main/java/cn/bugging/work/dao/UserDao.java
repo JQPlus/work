@@ -31,8 +31,8 @@ public interface UserDao{
 	@Insert("INSERT INTO user(id,username,password) VALUES(#{ID,jdbcType=VARCHAR},#{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR} )")
 	void insert(UserEntity user);
 
-	@Update("UPDATE user SET username=#{userName},password=#{password} WHERE id =#{ID}")
-	void update(UserEntity user);
+	@Update("UPDATE user SET password=#{password} WHERE username=#{username}")
+	boolean update(UserEntity user);
 
 	@Delete("DELETE FROM user WHERE id =#{ID}")
 	void delete(String id);

@@ -13,4 +13,7 @@ public interface ProjectDao {
 	@Select("SELECT * FROM project")
 	@Results(@Result(property="projectName",column="project_name"))
 	List<ProjectEntity> getProjectInfo(); 
+	
+	@Select("SELECT id FROM project WHERE project_name= #{projectName}")
+	String getProjectIDByName(String projectName); 
 }

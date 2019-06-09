@@ -79,7 +79,7 @@ public class DetailController {
 	@PostMapping("/insert")
 	public boolean insertDetail(@RequestBody DetailEntity detail) {
 		try {
-			if (detailService.getInfoByID(detail.getID()).isEmpty()) {
+			if (detailService.getInfoByID(detail.getID())==null) {
 				detailService.insert(detail);
 				return true;
 			}
@@ -91,9 +91,9 @@ public class DetailController {
 	}
 
 	@DeleteMapping("/delete")
-	public boolean deleteDetail(String ID) {
+	public boolean deleteDetail(@RequestBody DetailEntity detail) {
 		try {
-			if (detailService.delete(ID))
+			if (detailService.delete(detail))
 				return true;
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -104,7 +104,7 @@ public class DetailController {
 	@PutMapping("/update")
 	public boolean updateDetail(@RequestBody DetailEntity detail) {
 		try {
-			if (!detailService.getInfoByID(detail.getID()).isEmpty()) {
+			if (detailService.getInfoByID(detail.getID())!=null) {
 				detailService.update(detail);
 				return true;
 			}

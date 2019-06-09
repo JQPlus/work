@@ -6,6 +6,7 @@ package cn.bugging.work.utils.filters;
  * 
  */
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class MapResult {
@@ -33,6 +34,20 @@ public class MapResult {
 		Map<String, Object> map = new HashMap<>();
 		map.put("name", name);
 		map.put("value", value);
+		return map;
+	}
+	
+	/**
+	 * 
+	 * @param name
+	 * @param dataList
+	 * @return 
+	 * @Description statistics模块中，获取整个数据List
+	 */
+	public static Map<String, List<String>> statisticsResultMap(String name,List<String> dataList)
+	{
+		Map<String, List<String>> map = new HashMap<>();
+		map.put(name, dataList);
 		return map;
 	}
 }

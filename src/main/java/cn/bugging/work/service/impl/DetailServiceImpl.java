@@ -5,15 +5,17 @@ import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestBody;
 
 import cn.bugging.work.dao.DetailDao;
+import cn.bugging.work.dao.HistoryDao;
 import cn.bugging.work.entity.DetailEntity;
+import cn.bugging.work.entity.HistoryEntity;
 import cn.bugging.work.entity.StatusEntity;
 import cn.bugging.work.entity.TypeEntity;
-import cn.bugging.work.entity.UserEntity;
 import cn.bugging.work.entity.PriorityEntity;
 import cn.bugging.work.service.DetailService;
 
@@ -27,6 +29,8 @@ public class DetailServiceImpl implements DetailService {
 
 	@Autowired
 	private DetailDao detailDao;
+	@Autowired
+	private HistoryDao historyDao;
 
 	@Override
 	public List<DetailEntity> getAllDetail() {
@@ -43,21 +47,21 @@ public class DetailServiceImpl implements DetailService {
 		}
 		return resultList;
 	}
-	
+
 	@Override
 	public List<DetailEntity> getMyCreateInfo(String creator) {
 		// TODO Auto-generated method stub
-				List<DetailEntity> originList = detailDao.getMyCreateInfo(creator);
-				List<DetailEntity> resultList = new ArrayList<>();
-				resultList.addAll(originList);
-				for (DetailEntity list : resultList) {
-					if (list != null) {
-						list.setStatusName(detailDao.getStatusNameByID(list.getStatusID()));
-						list.setTypeName(detailDao.getTypeNameByID(list.getTypeID()));
-						list.setPriorityName(detailDao.getPriorityNameByID(list.getPriorityID()));
-					}
-				}
-				return resultList;
+		List<DetailEntity> originList = detailDao.getMyCreateInfo(creator);
+		List<DetailEntity> resultList = new ArrayList<>();
+		resultList.addAll(originList);
+		for (DetailEntity list : resultList) {
+			if (list != null) {
+				list.setStatusName(detailDao.getStatusNameByID(list.getStatusID()));
+				list.setTypeName(detailDao.getTypeNameByID(list.getTypeID()));
+				list.setPriorityName(detailDao.getPriorityNameByID(list.getPriorityID()));
+			}
+		}
+		return resultList;
 	}
 
 	@Override
@@ -111,7 +115,8 @@ public class DetailServiceImpl implements DetailService {
 	@Override
 	public List<DetailEntity> getAllUnclosedInfo() {
 		// TODO Auto-generated method stub
-		List<DetailEntity> originList = detailDao.getAllUnclosedInfo();;
+		List<DetailEntity> originList = detailDao.getAllUnclosedInfo();
+		;
 		List<DetailEntity> resultList = new ArrayList<>();
 		resultList.addAll(originList);
 		for (DetailEntity list : resultList) {
@@ -128,16 +133,29 @@ public class DetailServiceImpl implements DetailService {
 	public boolean insert(DetailEntity detail) {
 		// TODO Auto-generated method stub
 		try {
+			HistoryEntity history = new HistoryEntity();
 			// 生成随机uuid
-			String uuid = UUID.randomUUID().toString().replace("-", "").toLowerCase();
-			Date date = new Date();
-			detail.setID(uuid);
-			detail.setCreatetime(date);
-			detail.setUpdatetime(date);
+			String detailID = UUID.randomUUID().toString().replace("-", "").toLowerCase();
+			detail.setID(detailID);
+			//设置创建日期
+			detail.setCreatetime(new Date());
+			 //设置更新日期
+			detail.setUpdatetime(new Date());
 			detail.setStatusID(detailDao.getStatusID(detail.getStatusName()));
 			detail.setTypeID(detailDao.getTypeID(detail.getTypeName()));
 			detail.setPriorityID(detailDao.getpriorityID(detail.getPriorityName()));
+			// 插入Bug记录
 			detailDao.insert(detail);
+			// 在这之后插入历史记录是因为自增ID在插入后才生成
+			// 生成随机历史ID
+			String historyID = UUID.randomUUID().toString().replace("-", "").toLowerCase();
+			BeanUtils.copyProperties(detailDao.getInfoByID(detailID), history);
+			history.setID(historyID);
+			history.setBugID(detailID);
+			history.setUpdater(detail.getUpdater());
+			history.setRemark(detail.getRemark());
+			history.setUpdatetime(new Date());
+			historyDao.insert(history);
 			return true;
 		} catch (Exception e) {
 			// TODO: handle exception
@@ -149,9 +167,22 @@ public class DetailServiceImpl implements DetailService {
 	public boolean update(@RequestBody DetailEntity detail) {
 		// TODO Auto-generated method stub
 		try {
-			Date date = new Date();
-			detail.setUpdatetime(date);
+			HistoryEntity history = new HistoryEntity();
+			detail.setUpdatetime(new Date());
+
+			// 为历史记录定义ID
+			String historyID = UUID.randomUUID().toString().replace("-", "").toLowerCase();
+			// 将两个表中具有相同属性（非空）的列进行赋值
+			DetailEntity sourceDetail = detailDao.getInfoByID(detail.getID());
+			BeanUtils.copyProperties(sourceDetail, history);
+			history.setUpdater(detail.getUpdater());
+			history.setID(historyID);
+			history.setBugID(detail.getID());
+			history.setRemark(detail.getRemark());
+			// 将旧记录插入到历史表中
+			historyDao.insert(history);
 			detailDao.update(detail);
+
 			return true;
 		} catch (NullPointerException e) {
 			// TODO: handle exception
@@ -160,12 +191,20 @@ public class DetailServiceImpl implements DetailService {
 	}
 
 	@Override
-	public boolean delete(String ID) {
+	public boolean delete(@RequestBody DetailEntity detail) {
 		// TODO Auto-generated method stub
 		try {
-			List<DetailEntity> list = detailDao.getInfoByID(ID);
-			if (!list.isEmpty()) {
-				detailDao.delete(ID);
+			HistoryEntity history=new HistoryEntity();
+			if (detailDao.getInfoByID(detail.getID()) != null) {
+				BeanUtils.copyProperties(detail, history);
+				String historyID = UUID.randomUUID().toString().replace("-", "").toLowerCase();
+				history.setID(historyID);
+				history.setUpdater(detail.getUpdater());
+				history.setBugID(detail.getID());
+				history.setRemark(detail.getRemark());
+				history.setUpdatetime(new Date());
+				historyDao.insert(history);
+				detailDao.delete(detail);
 				return true;
 			}
 		} catch (NullPointerException e) {
@@ -176,7 +215,7 @@ public class DetailServiceImpl implements DetailService {
 	}
 
 	@Override
-	public List<DetailEntity> getInfoByID(String ID) {
+	public DetailEntity getInfoByID(String ID) {
 		// TODO Auto-generated method stub
 		return detailDao.getInfoByID(ID);
 	}

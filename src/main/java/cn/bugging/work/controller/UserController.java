@@ -103,4 +103,24 @@ public class UserController {
 		return jsonObject;
 	}
 
+	@PostMapping("/modify")
+	public Object modify(String username,String old,String newPass) {
+		JSONObject jsonObject = new JSONObject();
+		UserEntity user=userService.getUserByUsername(username);
+		String pass=user.getPassword();
+		if(!old.equals(pass))
+		{
+			jsonObject.put("code", Response.CODE_PASSWORD_WRONG);
+			jsonObject.put("message", "修改失败，初始密码输入错误！");
+		}
+		else {
+			user.setPassword(newPass);
+			if(userService.update(user))
+			{
+				jsonObject.put("code", Response.CODE_ALL_CORRECT);
+				jsonObject.put("message", "修改成功");
+			}
+		}
+		return jsonObject;
+	}
 }

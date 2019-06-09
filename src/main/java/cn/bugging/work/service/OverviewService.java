@@ -3,6 +3,8 @@ package cn.bugging.work.service;
 import java.util.List;
 import java.util.Map;
 
+import cn.bugging.work.dao.HistoryDao;
+import cn.bugging.work.entity.HistoryEntity;
 import cn.bugging.work.entity.UserEntity;
 
 public interface OverviewService {
@@ -117,5 +119,11 @@ public interface OverviewService {
 	 * @Description 获取用户列表
 	 */
 	List<UserEntity> getUser();
+	/**
+	 * 
+	 * @return 
+	 * @Description 获取历史记录信息
+	 */
+	List<HistoryEntity> getHistory();
 
 }

@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Result;
+import org.apache.ibatis.annotations.ResultMap;
 import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
@@ -25,7 +26,7 @@ public interface DetailDao {
 	 * @Description 所有bug信息
 	 */
 	@Select("SELECT * FROM bug_detail")
-	@Results({ @Result(property = "statusID", column = "status_id"), @Result(property = "typeID", column = "type_id"),
+	@Results(id="transformID",value={ @Result(property = "statusID", column = "status_id"), @Result(property = "typeID", column = "type_id"),
 			@Result(property = "priorityID", column = "priority_id") })
 	List<DetailEntity> getAllDetail();
 
@@ -36,7 +37,8 @@ public interface DetailDao {
 	 * @Description 根据bug ID来查询相应的bug信息
 	 */
 	@Select("SELECT * FROM bug_detail WHERE id=#{ID}")
-	List<DetailEntity> getInfoByID(String ID);
+	@ResultMap("transformID")
+	DetailEntity getInfoByID(String ID);
 
 	/**
 	 * 
@@ -45,8 +47,7 @@ public interface DetailDao {
 	 * @Description 我创建的问题列表(创建人为自己)
 	 */
 	@Select("SELECT * FROM bug_detail WHERE creator=#{creator}")
-	@Results({ @Result(property = "statusID", column = "status_id"), @Result(property = "typeID", column = "type_id"),
-			@Result(property = "priorityID", column = "priority_id") })
+	@ResultMap("transformID")
 	List<DetailEntity> getMyCreateInfo(String creator);
 
 	/**
@@ -56,8 +57,7 @@ public interface DetailDao {
 	 * @Description 待我解决的问题(所属人为自己，状态!=已拒绝和已验收)
 	 */
 	@Select("SELECT * FROM bug_detail WHERE belongto=#{belongto} AND status_id!=4 AND status_id!=5")
-	@Results({ @Result(property = "statusID", column = "status_id"), @Result(property = "typeID", column = "type_id"),
-			@Result(property = "priorityID", column = "priority_id") })
+	@ResultMap("transformID")
 	List<DetailEntity> getMyHandlingInfo(String belongto);
 
 	/**
@@ -67,8 +67,7 @@ public interface DetailDao {
 	 * @Description 指派给我的问题
 	 */
 	@Select("SELECT * FROM bug_detail WHERE belongto=#{belongto}")
-	@Results({ @Result(property = "statusID", column = "status_id"), @Result(property = "typeID", column = "type_id"),
-			@Result(property = "priorityID", column = "priority_id") })
+	@ResultMap("transformID")
 	List<DetailEntity> getBelongtoMeInfo(String belongto);
 
 	/**
@@ -79,8 +78,7 @@ public interface DetailDao {
 	 * @Description 我跟踪的问题(创建人或者所属人为自己的问题，并且问题状态！=已拒绝和已验收)
 	 */
 	@Select("SELECT * FROM bug_detail WHERE creator=#{creator} OR belongto=#{belongto} AND status_id!=4 AND status_id!=5")
-	@Results({ @Result(property = "statusID", column = "status_id"), @Result(property = "typeID", column = "type_id"),
-			@Result(property = "priorityID", column = "priority_id") })
+	@ResultMap("transformID")
 	List<DetailEntity> getMyTraceInfo(String creator, String belongto);
 
 	/**
@@ -89,8 +87,7 @@ public interface DetailDao {
 	 * @Description 所有未关闭的问题数目
 	 */
 	@Select("SELECT * FROM bug_detail WHERE status_id!=4 AND status_id!=5")
-	@Results({ @Result(property = "statusID", column = "status_id"), @Result(property = "typeID", column = "type_id"),
-			@Result(property = "priorityID", column = "priority_id") })
+	@ResultMap("transformID")
 	List<DetailEntity> getAllUnclosedInfo();
 
 	/**
@@ -175,10 +172,10 @@ public interface DetailDao {
 	 * @Description 新增bug信息
 	 */
 	@Insert("INSERT INTO bug_detail"
-			+ "(id,type_id,status_id,priority_id,brief,createtime,updatetime,creator,belongto) " + "VALUES"
+			+ "(id,type_id,status_id,priority_id,brief,createtime,updatetime,creator,belongto,updater) " + "VALUES"
 			+ "(#{ID,jdbcType=VARCHAR},#{typeID,jdbcType=VARCHAR}, #{statusID,jdbcType=VARCHAR},"
 			+ "#{priorityID,jdbcType=VARCHAR},#{brief,jdbcType=VARCHAR} ,#{createtime,jdbcType=TIMESTAMP},"
-			+ "#{updatetime,jdbcType=TIMESTAMP},#{creator,jdbcType=VARCHAR}, #{belongto,jdbcType=VARCHAR})")
+			+ "#{updatetime,jdbcType=TIMESTAMP},#{creator,jdbcType=VARCHAR}, #{belongto,jdbcType=VARCHAR},#{updater,jdbcType=VARCHAR})")
 	boolean insert(DetailEntity detail);
 
 	/**
@@ -189,7 +186,7 @@ public interface DetailDao {
 	 */
 	@Update("UPDATE bug_detail SET "
 			+ "type_id=#{typeID,jdbcType=VARCHAR},status_id=#{statusID,jdbcType=VARCHAR},priority_id=#{priorityID,jdbcType=VARCHAR},"
-			+ "brief=#{brief,jdbcType=VARCHAR} ,updatetime=#{updatetime} ,belongto=#{belongto,jdbcType=VARCHAR} WHERE id =#{ID,jdbcType=VARCHAR}")
+			+ "brief=#{brief,jdbcType=VARCHAR} ,updatetime=#{updatetime} ,belongto=#{belongto,jdbcType=VARCHAR},updater=#{updater,jdbcType=VARCHAR} WHERE id =#{ID,jdbcType=VARCHAR}")
 	boolean update(DetailEntity detail);
 
 	/**
@@ -199,5 +196,5 @@ public interface DetailDao {
 	 * @Description 删除
 	 */
 	@Delete("DELETE FROM bug_detail WHERE id =#{ID}")
-	boolean delete(String ID);
+	boolean delete(DetailEntity detail);
 }

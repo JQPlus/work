@@ -10,7 +10,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 
+import cn.bugging.work.dao.HistoryDao;
 import cn.bugging.work.dao.OverviewDao;
+import cn.bugging.work.entity.HistoryEntity;
 import cn.bugging.work.entity.UserEntity;
 import cn.bugging.work.service.OverviewService;
 import cn.bugging.work.utils.consts.Status;
@@ -26,6 +28,8 @@ public class OverviewServiceImpl implements OverviewService {
 
 	@Autowired
 	private OverviewDao overviewDao;
+	@Autowired
+	private HistoryDao historyDao;
 
 	@Override
 	public int getMyCreateNum(String creator) {
@@ -126,6 +130,7 @@ public class OverviewServiceImpl implements OverviewService {
 	public List<Map<String, Object>> initMyPieChart(String creator, String belongto) {
 		List<Map<String, Object>> list = new ArrayList<>();
 		try {
+			//使用自定义工具类将数据转换为前端接受格式
 			list.add(MapResult.createChartMap(Status.CREATE, overviewDao.getMyCreateNum(creator)));
 			list.add(MapResult.createChartMap(Status.HANDLE, overviewDao.getMyHandlingNum(belongto)));
 			list.add(MapResult.createChartMap(Status.SOLVED, overviewDao.getMySolvedNum(belongto)));
@@ -195,6 +200,12 @@ public class OverviewServiceImpl implements OverviewService {
 	@Override
 	public List<UserEntity> getUser() {
 		return overviewDao.getUser();
+	}
+	
+	@Override
+	public List<HistoryEntity> getHistory()
+	{
+		return historyDao.getHistoryList();
 	}
 
 }

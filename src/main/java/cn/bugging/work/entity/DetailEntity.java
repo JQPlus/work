@@ -5,6 +5,8 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import com.mysql.cj.xdevapi.UpdateResult;
+
 /**
  * @author HuangJq
  * @Description
@@ -14,7 +16,8 @@ public class DetailEntity {
 
 	/** 主键ID */
 	private String ID;
-
+	/** 计数Bug信息 */
+	private int num;
 	/** 问题-当前状态ID */
 	private String statusID;
 	/** 问题-当前状态名 */
@@ -37,6 +40,10 @@ public class DetailEntity {
 	private Date createtime;
 	/** 更新时间 */
 	private Date updatetime;
+	/** 更新人 */
+	private String updater;
+	/** 备注 */
+	private String remark;
 
 	public String getID() {
 		return ID;
@@ -44,6 +51,14 @@ public class DetailEntity {
 
 	public void setID(String iD) {
 		ID = iD;
+	}
+
+	public int getNum() {
+		return num;
+	}
+
+	public void setNum(int num) {
+		this.num = num;
 	}
 
 	public String getStatusID() {
@@ -132,6 +147,22 @@ public class DetailEntity {
 
 	public void setUpdatetime(Date updatetime) {
 		this.updatetime = updatetime;
+	}
+
+	public String getRemark() {
+		return remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
+
+	public String getUpdater() {
+		return updater;
+	}
+
+	public void setUpdater(String updater) {
+		this.updater = updater;
 	}
 
 }

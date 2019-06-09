@@ -7,4 +7,6 @@ import cn.bugging.work.entity.ProjectEntity;
 public interface ProjectService {
 
 	List<ProjectEntity> getProjectInfo(); 
+	
+	String getProjectIDByName(String projectName);
 }

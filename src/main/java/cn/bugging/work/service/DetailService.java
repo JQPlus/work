@@ -24,7 +24,7 @@ public interface DetailService {
 	 * @return 
 	 * @Description 根据信息ID查找信息
 	 */
-	List<DetailEntity> getInfoByID(String ID);
+	DetailEntity getInfoByID(String ID);
 	
 	/**
 	 * 
@@ -152,5 +152,5 @@ public interface DetailService {
 	 * @return
 	 * @Description 删除
 	 */
-	boolean delete(String id);
+	boolean delete(DetailEntity detail);
 }

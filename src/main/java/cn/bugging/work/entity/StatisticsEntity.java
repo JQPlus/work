@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 import net.sf.jsqlparser.expression.DateTimeLiteralExpression.DateTime;
+
 @Entity
 public class StatisticsEntity {
 	/**
@@ -12,5 +13,32 @@ public class StatisticsEntity {
 	 * @Description
 	 * 
 	 */
-	
+	private String statusName;
+	private String typeName;
+	private String priorityName;
+
+	public String getStatusName() {
+		return statusName;
+	}
+
+	public void setStatusName(String statusName) {
+		this.statusName = statusName;
+	}
+
+	public String getTypeName() {
+		return typeName;
+	}
+
+	public void setTypeName(String typeName) {
+		this.typeName = typeName;
+	}
+
+	public String getPriorityName() {
+		return priorityName;
+	}
+
+	public void setPriorityName(String priorityName) {
+		this.priorityName = priorityName;
+	}
+
 }

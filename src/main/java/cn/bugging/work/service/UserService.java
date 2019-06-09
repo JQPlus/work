@@ -33,4 +33,6 @@ public interface UserService {
 	 * @return
 	 */
 	public UserEntity getUserByUsername(String username);
+	
+	public boolean update(UserEntity user);
 }

@@ -40,6 +40,12 @@ public class UserServiceImpl implements UserService{
 		// TODO Auto-generated method stub
 		return userDao.getUserByUsername(username);
 	}
+
+	@Override
+	public boolean update(UserEntity user) {
+		// TODO Auto-generated method stub
+		return userDao.update(user);
+	}
 	
 	
 }

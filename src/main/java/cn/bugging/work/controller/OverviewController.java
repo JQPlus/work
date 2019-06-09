@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import cn.bugging.work.entity.HistoryEntity;
 import cn.bugging.work.entity.UserEntity;
 import cn.bugging.work.service.OverviewService;
 
@@ -77,6 +78,11 @@ public class OverviewController {
 	@GetMapping("/getuser")
 	public List<UserEntity> getUser() {
 		return overviewService.getUser();
+	}
+	
+	@GetMapping("/history")
+	public List<HistoryEntity> getHistory() {
+		return overviewService.getHistory();
 	}
 
 }

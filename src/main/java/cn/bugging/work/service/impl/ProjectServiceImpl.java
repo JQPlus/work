@@ -25,5 +25,11 @@ public class ProjectServiceImpl implements ProjectService{
 		return projectDao.getProjectInfo();
 	}
 	
+	@Override
+	public String getProjectIDByName(String projectName) {
+		// TODO Auto-generated method stub
+		return projectDao.getProjectIDByName(projectName);
+	}
+	
 
 }

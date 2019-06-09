@@ -28,4 +28,11 @@ public class ProjectController {
 	{
 		return projectService.getProjectInfo();
 	}
+	
+	@GetMapping("/getProjectIDByName")
+	public String getProjectIDByName(String projectName)
+	{
+		return projectService.getProjectIDByName(projectName);
+	}
+	
 }
