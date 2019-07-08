@@ -35,5 +35,5 @@ public interface UserDao{
 	boolean update(UserEntity user);
 
 	@Delete("DELETE FROM user WHERE id =#{ID}")
-	void delete(String id);
+	void delete(String ID);
 }
